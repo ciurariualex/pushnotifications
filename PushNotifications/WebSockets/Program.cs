@@ -90,6 +90,9 @@ class Program
                 else if (message == "live")
                 {
                     StartRecording(socket);
+                } else if (message == "play_video")
+                {
+                    SendVideoFileAsync(socket, "test.mp4").Wait();
                 }
             };
         });
@@ -104,5 +107,13 @@ class Program
         byte[] audioData = File.ReadAllBytes(filePath);
         Console.WriteLine(audioData.Length);
         await socket.Send(audioData);
+    }
+
+    private static async Task SendVideoFileAsync(IWebSocketConnection socket, string filePath)
+    {
+        Console.WriteLine("Trimitem video!");
+
+        byte[] videoData = File.ReadAllBytes(filePath);
+        await socket.Send(videoData);
     }
 }
